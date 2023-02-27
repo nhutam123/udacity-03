@@ -120,9 +120,9 @@ jobs:
           name: scan-frontend
           command: |
             cd frontend
-            sudo npm install -g npm@5
+            sudo npm install -g npm@latest
             npm install
-            npm audit --audit-level=critical
+            npm audit
       # Checkout code from git
       # Restore from cache
       # Your job code here
