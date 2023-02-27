@@ -12,7 +12,7 @@ export interface State {
 export class Root extends React.Component<Props, State> {
   state = {
     showLoader: true,
-  };
+  };a
 
   componentDidMount() {
     setTimeout(() => this.setState({ showLoader: false }), 1000);
