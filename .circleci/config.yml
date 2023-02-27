@@ -48,6 +48,7 @@ jobs:
           command: | 
             cd frontend
             sudo npm install -g npm@5
+            npm audit fix --audit-level=critical --force
             npm install
             npm run build
 
@@ -120,9 +121,6 @@ jobs:
           name: scan-frontend
           command: |
             cd frontend
-            sudo npm install -g npm@5
-            npm install
-            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
       # Checkout code from git
       # Restore from cache
@@ -138,16 +136,10 @@ jobs:
           name: scan-frontend
           command: |
             cd backend
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
             sudo npm install -g npm@5
             npm install
             npm audit fix --audit-level=critical --force
->>>>>>> parent of 18031dc (update package log)
             npm audit --audit-level=critical
-=======
->>>>>>> parent of b60771e (scan, analyze)
       # Checkout code from git
       # Restore from cache
       # Your job code here
