@@ -45,7 +45,11 @@ jobs:
           keys: [frontend-build]
       - run:
           name: Build front-end
-          command: sudo npm install -g npm@5
+          command: | 
+            cd frontend
+            sudo npm install -g npm@5
+            npm run build
+
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
