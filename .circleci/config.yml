@@ -136,7 +136,10 @@ jobs:
           name: scan-frontend
           command: |
             cd backend
+<<<<<<< HEAD
             npm audit --audit-level=critical
+=======
+>>>>>>> parent of b60771e (scan, analyze)
       # Checkout code from git
       # Restore from cache
       # Your job code here
