@@ -82,7 +82,9 @@ jobs:
       - run: 
           name: test
           command: |
-            cd frontend
+            npm install
+            sudo npm install -g npm@5
+            npm install
             npm run test
 
       # Checkout code from git
@@ -99,7 +101,7 @@ jobs:
           name: test
           command: |
             cd backend
-            
+
 
       # Checkout code from git
       # Restore from cache
