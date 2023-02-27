@@ -120,7 +120,7 @@ jobs:
           name: scan-frontend
           command: |
             cd frontend
-            sudo npm install -g npm@latest
+            sudo npm install -g npm@5
             npm install
             npm audit
       # Checkout code from git
