@@ -81,7 +81,9 @@ jobs:
       - checkout
       - run: 
           name: test
-          command: npm run test
+          command: |
+            cd frontend
+            npm run test
 
       # Checkout code from git
       # Restore from cache
@@ -93,6 +95,12 @@ jobs:
       # Docker image here
     steps:
       - checkout
+      - run: 
+          name: test
+          command: |
+            cd backend
+            
+
       # Checkout code from git
       # Restore from cache
       # Your job code here
