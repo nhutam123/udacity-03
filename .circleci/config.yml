@@ -131,7 +131,7 @@ jobs:
             cd frontend
             sudo npm install -g npm@5
             npm install
-            # npm audit
+            npm audit --audit-level=critical
       # Checkout code from git
       # Restore from cache
       # Your job code here
@@ -148,7 +148,7 @@ jobs:
             cd backend
             sudo npm install -g npm@5
             npm install
-            # npm audit --audit-level=critical
+            npm audit --audit-level=critical
       # Checkout code from git
       # Restore from cache
       # Your job code here
@@ -226,8 +226,7 @@ jobs:
             then
               curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:5}
       # Here's where you will add some code to rollback on failure
-      - destroy-environment:
-          when: on_fail
+
         
 
   deploy-frontend:
@@ -272,7 +271,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
       # Lightweight Docker image
     steps:
       # Checkout code from git
@@ -293,6 +292,8 @@ jobs:
           command: |
             # your code here
       # Here's where you will add some code to rollback on failure
+      - destroy-environment:
+          when: on_fail
 
 #   cloudfront-update:
 #     docker:
@@ -354,8 +355,8 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
