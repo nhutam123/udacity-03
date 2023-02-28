@@ -39,12 +39,13 @@
     ENVIRONMENT: production
     TYPEORM_CONNECTION: postgres
     TYPEORM_MIGRATIONS: ./src/migrations/*.ts
+    TYPEORM_MIGRATIONS_DIR: ./src/migrations
     TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
-    TYPEORM_HOST: glee.cwrv33p0yibm.us-east-1.rds.amazonaws.com
+    TYPEORM_HOST: database-1.cwrv33p0yibm.us-east-1.rds.amazonaws.com
     TYPEORM_PORT: 5432
     TYPEORM_USERNAME: postgres
     TYPEORM_PASSWORD: password
-    TYPEORM_DATABASE: glee
+    TYPEORM_DATABASE: database-1
     # Add more env vars here
 
   roles:
