@@ -217,19 +217,16 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            cd ~/project/backend 
+            cd backend 
             npm install
-            npm run migrations > migration.log
-            export migration_status=$(cat migration.log | grep -c "has been executed successfully")
-            tar -zcvf ~/backend.tar.gz .
-            ls
-      - run:
-          name: Send migration results to memstash
-          command: |
-            cd ~/project/backend
-            if grep -q "successfully" migration_status
-            then
-              curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:5}
+            npm run migrations > migration.txt
+      # - run:
+      #     name: Send migration results to memstash
+      #     command: |
+      #       cd ~/project/backend
+      #       if grep -q "successfully" migration_status
+      #       then
+      #         curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:5}
       # Here's where you will add some code to rollback on failure
 
         
