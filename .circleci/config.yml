@@ -205,6 +205,7 @@ jobs:
       # Checkout code from git
       - run:
           name: Run migrations
+          working_directory: ./backend
           command: |
             # Your code here
             npm run migrations > migration_status
