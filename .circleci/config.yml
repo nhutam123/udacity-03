@@ -146,13 +146,11 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      # Docker image here that supports AWS CLI
       - image: amazon/aws-cli
     steps:
       - checkout
-      # Checkout code from git
       - run:
-          name: Ensure back-end infrastructure exists
+          name: back-end-infrastructure
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
@@ -160,7 +158,7 @@ jobs:
               --stack-name my-back-end-stack-${id} \
               --parameter-overrides ID=${id}
       - run:
-          name: Ensure front-end infrastructure exist
+          name: front-end-infrastructure
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
@@ -168,7 +166,7 @@ jobs:
               --stack-name my-front-end-stack-${id} \
               --parameter-overrides ID=${id}  
       - run:
-          name: Add back-end ip to ansible inventory
+          name: back-end-ip-to-ansible-inventory
           command: |
             # Your code here
             exit 1
@@ -326,7 +324,7 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
-              only: [test-feature-branch]
+              only: [master]
       # - configure-infrastructure:
       #     requires: [deploy-infrastructure]
       # - run-migrations:
