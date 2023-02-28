@@ -17,7 +17,6 @@
       become: true
       apt:
         wait: 600 seconds
-      # Your code here
     - name: "upgrade packages."
       become: true
       apt:
@@ -48,4 +47,4 @@
     # Add more env vars here
 
   roles:
-    # Your code here
+    - configure-server
