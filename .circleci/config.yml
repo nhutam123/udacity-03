@@ -217,9 +217,11 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            cd ~/project/backend
             npm install
-            npm run migrations > migration_status
+            npm run migrations > migration.log
+            export migration_status=$(cat migration.log | grep -c "has been executed successfully")
+            tar -zcvf ~/backend.tar.gz .
+            ls
       - run:
           name: Send migration results to memstash
           command: |
