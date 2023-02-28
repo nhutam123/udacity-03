@@ -130,7 +130,9 @@ jobs:
           command: |
             cd frontend
             npm install
-            # npm audit --audit-level=critical
+            npm audit fix --audit-level=critical --force
+            npm audit fix --force
+            npm audit --audit-level=critical
       # Checkout code from git
       # Restore from cache
       # Your job code here
