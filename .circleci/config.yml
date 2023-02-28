@@ -7,7 +7,7 @@ commands:
       # Add parameter here
       id:
         type: string
-        value: "12345"
+        default: "12345"
     steps:
       - run:
           name: Destroy environments
