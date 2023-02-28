@@ -40,7 +40,7 @@
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
     - TYPEORM_ENTITIES: "./modules/domain/**/*.entity{.ts,.js}"
     - TYPEORM_HOST: webserver
-    - TYPEORM_PORT: 5532
+    - TYPEORM_PORT: 5432
     - TYPEORM_USERNAME: webserver
     - TYPEORM_PASSWORD: 12345678
     - TYPEORM_DATABASE: webserver
