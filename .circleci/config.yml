@@ -12,6 +12,7 @@ commands:
     steps:
       - run:
           name: Destroy environments
+          when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name back-end-stack-${CIRCLE_WORKFLOW_ID:0:5}
             aws cloudformation delete-stack --stack-name front-end-stack-${CIRCLE_WORKFLOW_ID:0:5}
