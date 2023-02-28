@@ -166,14 +166,14 @@ jobs:
               --tags project=your-tag \
               --stack-name front-end-stack-${CIRCLE_WORKFLOW_ID:0:5} \
               --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5}  
-      - run:
-          name: back-end-ip-to-ansible-inventory
-          command: |
-            # Your code here
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
+      # - run:
+      #     name: back-end-ip-to-ansible-inventory
+      #     command: |
+      #       # Your code here
+      # - persist_to_workspace:
+      #     root: ~/
+      #     paths:
+      #       - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
 
   configure-infrastructure:
