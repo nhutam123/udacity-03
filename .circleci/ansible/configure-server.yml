@@ -43,7 +43,7 @@
     TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
     TYPEORM_HOST: database-1.cwrv33p0yibm.us-east-1.rds.amazonaws.com
     TYPEORM_PORT: 5432
-    TYPEORM_USERNAME: postgres
+    TYPEORM_USERNAME: glee
     TYPEORM_PASSWORD: password
     TYPEORM_DATABASE: database-1
     # Add more env vars here
