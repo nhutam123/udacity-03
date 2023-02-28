@@ -7,8 +7,7 @@ commands:
       # Add parameter here
       id:
         type: string
-        description: id
-        default: "1234"
+        default: "12345"
     steps:
       - run:
           name: Destroy environments
@@ -209,6 +208,7 @@ jobs:
           name: Run migrations
           working_directory: ./backend
           command: |
+            # Your code here
             npm run migrations > migration_status
       - run:
           name: Send migration results to memstash
