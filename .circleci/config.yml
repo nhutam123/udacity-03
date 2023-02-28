@@ -8,6 +8,7 @@ commands:
       id:
         type: string
         description: id
+        default: "1234"
     steps:
       - run:
           name: Destroy environments
