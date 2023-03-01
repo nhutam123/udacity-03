@@ -32,12 +32,14 @@ commands:
     parameters:
       id:
         type: string
+        default: "12345"
       when:
         type: string
       # Add parameter here
     steps:
       - run:
           name: Revert migrations
+          when: on_fail
           # Add when this will run
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
@@ -47,8 +49,8 @@ commands:
             #  cd ~/project/backend
             #  npm install
             #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
-            fi
+            #   exit 1
+            # fi
 
 jobs:
   build-frontend:
