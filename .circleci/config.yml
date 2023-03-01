@@ -43,14 +43,12 @@ commands:
           # Add when this will run
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
-            if(( $SUCCESS==1 )); 
+            if [[ "success" == "success" ]]
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-            #   exit 1
-            # fi
+              pwd
+              ls -la
+              npm run migrations:revert
+            fi
 
 jobs:
   build-frontend:
@@ -327,6 +325,7 @@ jobs:
               --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:5}" \
               --output text)
             export API="http://${BACKEND_IP}:3030"
+            echo "${API}"
             if curl "${API}/api/status" | grep "ok"
             then
               exit 0
