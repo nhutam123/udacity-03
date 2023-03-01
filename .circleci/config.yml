@@ -281,6 +281,10 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["a1:0f:b4:d8:b9:02:e7:10:16:a2:1b:7e:a3:b3:a1:09"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Install dependencies
           command: |
