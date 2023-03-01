@@ -196,7 +196,7 @@ jobs:
               cat inventory.txt
             # Your code here
       - persist_to_workspace:
-          root: .
+          root: ~/
           paths:
             - .circleci/ansible/inventory
       # - persist_to_workspace:
