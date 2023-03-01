@@ -294,25 +294,38 @@ jobs:
 
   smoke-test:
     docker:
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
       # Lightweight Docker image
     steps:
       # Checkout code from git
+      - checkout
       - run:
           name: Install dependencies
           command: |
             # your code here
+            cd frontend
+            sudo apt-get update
+            sudo apt-get install awscli
+            sudo apt-get install python
       - run:
           name: Get backend url
           command: |
             # your code here
+            cd backend
+            export BACKEND_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
+            curl "$BACKEND_URL/api/status"
       - run:
           name: Backend smoke test.
           command: |
             # your code here
+            cd backend
+
       - run:
           name: Frontend smoke test.
           command: |
+            cd frontend
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:5}.s3-website.eu-central-1.amazonaws.com/index.html"
+            curl -s ${URL} | grep -q "Welcome"
             # your code here
       # Here's where you will add some code to rollback on failure
       - destroy-environment:
