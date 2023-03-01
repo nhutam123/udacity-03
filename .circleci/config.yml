@@ -281,7 +281,7 @@ jobs:
           name: Deploy backend
           command: |
             # your code here
-            cd /.circleci/ansible/inventory
+            cd .circleci/ansible/inventory
             ansible-playbook -i inventory deploy-server.yaml -vv
       # Here's where you will add some code to rollback on failure
 
