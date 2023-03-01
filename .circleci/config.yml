@@ -167,6 +167,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install-dependencies
+          command: yum install -y tar gzip
+      - run:
           name: back-end-infrastructure
           command: |
             aws cloudformation deploy \
