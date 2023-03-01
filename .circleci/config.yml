@@ -341,10 +341,10 @@ jobs:
             curl -s ${URL} | grep -q "Welcome"
             # your code here
       # Here's where you will add some code to rollback on failure
-      - destroy-environment:
-          when: on_fail
-      - revert-migrations:
-          when: on_fail
+      # - destroy-environment:
+      #     when: on_fail
+      # - revert-migrations:
+      #     when: on_fail
 
 #   cloudfront-update:
 #     docker:
