@@ -247,6 +247,8 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
+            sudo apt update
+            sudo apt install nodejs
             npm install
             # your code here
       - run:
@@ -281,7 +283,7 @@ jobs:
           command: |
             # your code here
             cd .circleci/ansible
-            ansible-playbook -i inventory deploy-backend.yaml -vv
+            ansible-playbook -i inventory deploy-backend.yml -vv
       # Here's where you will add some code to rollback on failure
 
   smoke-test:
