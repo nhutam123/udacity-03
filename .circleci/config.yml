@@ -188,7 +188,7 @@ jobs:
             cd .circleci/ansible
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:5}" \
+              --filters "Name=tag:project,Values=my-backend" \
               --output text >> inventory.txt
               cat inventory.txt
             # Your code here
@@ -323,7 +323,7 @@ jobs:
             cd backend
             BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:5}" \
+              --filters "Name=tag:project,Values=my-backend" \
               --output text)
             export API="http://${BACKEND_IP}:3030"
             echo "${API}"
