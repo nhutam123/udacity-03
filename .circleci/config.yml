@@ -4,6 +4,9 @@ executors:
   aws:
     docker:
       - image: amazon/aws-cli
+  node:
+    docker:
+      - image: circleci/node:13.8.0
 
 commands:
   destroy-environment:
@@ -247,13 +250,11 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
-            sudo apt update
-            sudo apt install nodejs
-            npm install
             # your code here
       - run:
           name: Get backend url
           command: |
+            cd frontend
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             npm run build
