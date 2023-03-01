@@ -312,13 +312,22 @@ jobs:
           command: |
             # your code here
             cd backend
-            export BACKEND_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
-            curl "$BACKEND_URL/api/status"
       - run:
           name: Backend smoke test.
           command: |
             # your code here
             cd backend
+            BACKEND_IP=$(aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:5}" \
+              --output text)
+            export API=http://${BACKEND_IP}:3030"
+            if curl "${API}/api/status" | grep "ok"
+            then
+              exit 0
+            else
+              exit 1
+            fi
 
       - run:
           name: Frontend smoke test.
