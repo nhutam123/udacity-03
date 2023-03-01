@@ -326,7 +326,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:5}" \
               --output text)
-            export API=http://${BACKEND_IP}:3030"
+            export API="http://${BACKEND_IP}:3030"
             if curl "${API}/api/status" | grep "ok"
             then
               exit 0
