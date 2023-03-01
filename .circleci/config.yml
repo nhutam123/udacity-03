@@ -198,15 +198,11 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - destroy-environment:
           when: on_fail
       - revert-migrations:
           when: on_fail
-      # - persist_to_workspace:
-      #     root: ~/
-      #     paths:
-      #       - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
 
   configure-infrastructure:
