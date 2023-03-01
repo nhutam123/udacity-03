@@ -240,6 +240,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            cd frontend
+            sudo npm install -g npm@5
+            npm install
             # your code here
       - run:
           name: Get backend url
@@ -258,17 +261,22 @@ jobs:
       - image: python:3.7-alpine3.11
       # Docker image here that supports Ansible
     steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["a1:0f:b4:d8:b9:02:e7:10:16:a2:1b:7e:a3:b3:a1:09"]
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
       # Checkout code from git
       # Add ssh keys with fingerprint
       # attach workspace
       - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
           name: Deploy backend
           command: |
             # your code here
+            cd /.circleci/ansible/inventory
+            ansible-playbook -i inventory deploy-server.yaml -vv
       # Here's where you will add some code to rollback on failure
 
   smoke-test:
