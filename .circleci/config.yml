@@ -260,6 +260,7 @@ jobs:
             cd frontend
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
+            npm install
             npm run build
       - run:
           name: Deploy frontend objects
