@@ -198,7 +198,11 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - .circleci/ansible/inventory
+            - .circleci/ansible/inventory.txt
+      - destroy-environment:
+          when: on_fail
+      - revert-migrations:
+          when: on_fail
       # - persist_to_workspace:
       #     root: ~/
       #     paths:
