@@ -390,7 +390,6 @@ jobs:
           name: Backend smoke test.
           working_directory: ./backend
           command: |
-            cd backend
             BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=my-backend" \
