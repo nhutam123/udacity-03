@@ -204,13 +204,13 @@ jobs:
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=my-backend" \
-              --output text >> inventory.txt
-              cat inventory.txt
+              --output text >> inventory
+              cat inventory
             # Your code here
       - persist_to_workspace:
-          root: ~/
+          root: .
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - .circleci/ansible/inventory
       - destroy-environment:
           when: on_fail
       - revert-migrations:
