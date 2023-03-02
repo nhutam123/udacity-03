@@ -219,7 +219,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: circleci/node:13.8.0
       # Docker image here that supports Ansible
     steps:
       # Checkout code from git
@@ -233,8 +233,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
-            apk add aws-cli
+            sudo apt-get update
+            sudo apt-get install awscli
+            sudo apt-get install python
+            sudo apt-get install ansible
       - run:
           name: Configure server
           command: |
