@@ -1,9 +1,9 @@
 ---
-  - name: "update apt packages."
-    become: true
-    apt:
-      update_cache: yes
-      
+  # - name: "update apt packages."
+  #   become: true
+  #   apt:
+  #     update_cache: yes
+
   - name: "install nodejs and npm"
     become: true
     apt:
