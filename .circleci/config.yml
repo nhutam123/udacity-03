@@ -239,6 +239,9 @@ jobs:
           command: |
             cat inventory.txt
             ansible-playbook -i inventory.txt .circleci/ansible/configure-server.yml
+            # - destroy-environment:
+      - destroy-environment:
+          when: on_fail
       # Here's where you will add some code to rollback on failure
 
   run-migrations:
@@ -327,10 +330,8 @@ jobs:
           command: |
             # your code here
             cd .circleci/ansible
-            pwd &&
-            ls -la
-            cat inventory
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            pwd
+            ansible-playbook -i inventory deploy-backend.yml
       - persist_to_workspace:
           root: .
           paths:
