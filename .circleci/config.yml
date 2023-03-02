@@ -234,18 +234,18 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            # apk add --update aws-cli
+            apk add aws-cli
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
-            cat inventory
-            # aws ec2 describe-instances \
-            #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            #   --filters "Name=tag:project,Values=my-backend" \
-            #   --output text >> inventory.txt
-            # cat inventory.txt
-            ansible-playbook -i inventory configure-server.yml
+            cat inventory.txt
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=my-backend" \
+              --output text >> inventory.txt
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-server.yml
             # - destroy-environment:
       - destroy-environment:
           when: on_fail
