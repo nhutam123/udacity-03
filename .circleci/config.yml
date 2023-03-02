@@ -1,6 +1,5 @@
 version: 2.1
 
-
 executors:
   node:
     docker:
@@ -11,7 +10,6 @@ executors:
   aws:
     docker:
       - image: amazon/aws-cli
-
 
 commands:
   destroy_environment:
@@ -28,7 +26,6 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.id >>
           environment:
             TERM: xterm-256color
-          when: << parameters.when >>
       - run:
           name: Destroy udapeople frontend cfn stack and S3 bucket
           command: |
@@ -36,7 +33,6 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.id >>
           environment:
               TERM: xterm-256color
-          when: << parameters.when >>
 
   revert_migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -50,15 +46,7 @@ commands:
           name: Revert migrations
           working_directory: ./backend
           command: |
-            SUCCESS=$(curl -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request GET https://api.memstash.io/values/DB_MIGRATION_<< parameters.id >>)
-            echo $SUCCESS
-            if [[ "$SUCCESS" == "success" ]]
-            then
-              pwd
-              ls -la
               npm run migrations:revert
-            fi
-          when: << parameters.when >>
 
 jobs:
 
@@ -210,13 +198,6 @@ jobs:
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:5}" \
               --tags project=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
-      # - run:
-      #     name: Save backend URL in memstash
-      #     command: |
-      #       BACKEND_IP=$(aws ec2 describe-instances \
-      #         --query 'Reservations[*].Instances[*].PublicIpAddress' \
-      #         --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}" \
-      #         --output text)
       - run:
           name: Deploy frontend infrastructure
           working_directory: ./.circleci/files
@@ -288,19 +269,6 @@ jobs:
           working_directory: ./backend
           command: |
             npm run migrations > migration
-      # - run:
-      #     name: Send migration results to memstash
-      #     working_directory: ./backend
-      #     command: |
-      #       if grep -q "has been executed successfully" migration_status
-      #       then
-      #         echo "DB migration was successful, will update memstash..."
-      #         curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:5}
-      #       else
-      #         echo "DB migration failed, please verify setup! Probably the database already exists. Verify setup!"
-      #         curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "failure" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:5}
-      #       fi
-      #       echo "WorkflowID=${CIRCLE_WORKFLOW_ID:0:5}"
       - destroy_environment:
           id: ${CIRCLE_WORKFLOW_ID:0:5}
           when: on_fail
