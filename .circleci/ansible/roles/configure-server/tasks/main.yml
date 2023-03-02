@@ -3,12 +3,7 @@
     become: true
     apt:
       update_cache: yes
-
-  - name: "remove dependencies that are no longer required"
-    become: true
-    apt:
-      autoremove: yes
-
+      
   - name: "install nodejs and npm"
     become: true
     apt:
