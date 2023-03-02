@@ -494,14 +494,14 @@ workflows:
             -  build-frontend
       - scan-backend:
           requires:
-            - build-backend
+            - test-backend
       - scan-frontend:
           requires:
-            - build-frontend
+            - test-frontend
 
       ## INFRASTRUCTURE
       - deploy-infrastructure:
-          requires: [build-backend,build-frontend]
+          requires: [scan-frontend,scan-backend]
           filters:
             branches:
               only:
