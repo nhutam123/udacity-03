@@ -232,7 +232,7 @@ jobs:
           command: |
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=my-backend \
+              --filters "Name=tag:project,Values=my-backend" \
               --output text >> inventory
             cat inventory
       - persist_to_workspace:
