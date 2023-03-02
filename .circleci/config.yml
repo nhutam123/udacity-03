@@ -178,6 +178,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: install-dependencies
           command: yum install -y tar gzip
@@ -234,12 +236,12 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            sudo apt-get update
-            sudo apt-get install awscli
+            apk add --update awscli
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
+            cat inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=my-backend" \
