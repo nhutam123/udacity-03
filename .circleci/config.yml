@@ -239,13 +239,13 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            cat inventory.txt
+            cat inventory
             # aws ec2 describe-instances \
             #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
             #   --filters "Name=tag:project,Values=my-backend" \
             #   --output text >> inventory.txt
             # cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
+            ansible-playbook -i inventory configure-server.yml
             # - destroy-environment:
       - destroy-environment:
           when: on_fail
@@ -396,19 +396,21 @@ jobs:
       # - revert-migrations:
       #     when: on_fail
 
-#   cloudfront-update:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Update cloudfront distribution
-#           command: |
-#             # your code here
+  cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+      # Docker image here that supports AWS CLI
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            # your code here
 #       # Here's where you will add some code to rollback on failure
 
 # cleanup:
