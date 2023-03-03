@@ -240,7 +240,7 @@ jobs:
           name: Install dependencies
           working_directory: ./.circleci/ansible
           command: |
-            apk add --update ansible
+            apk add --update ansible@14.04
             ansible --version
       - run:
           name: Configure server
