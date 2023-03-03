@@ -13,10 +13,14 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
+  - name: "Update apt-get repo and cache"
+    apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
   - name: install python
-    raw: 'cat < /home/ubuntu/script.sh'
+    raw: yum -y install python
+    
     args:
       executable: /bin/bash
+
 
   # pre_tasks:
     # - name: "Wait 600 seconds for target connection to become reachable/usable"
