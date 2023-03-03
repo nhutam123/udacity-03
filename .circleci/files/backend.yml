@@ -13,7 +13,7 @@ Resources:
       GroupName: !Sub UdaPeople-${ID}
       GroupDescription: Allow port 22 and port 3030.
       SecurityGroupIngress:
-        - IpProtocol: tcp
+        - IpProtocol: ssh
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
