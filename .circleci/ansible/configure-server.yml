@@ -12,28 +12,17 @@
     - ansible_host_key_checking: false
     - ansible_stdout_callback: yaml
 
-  # pre_tasks:
-  
-  # - name: install python
-  #   raw: yum -y install python
-  # - name: "Update apt-get repo and cache"
-  #   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
   #   args:
   #     executable: /bin/bash
 
 
-  # pre_tasks:
-  #   - name: "Wait 600 seconds for target connection to become reachable/usable"
-  #     wait_for_connection:
-  #       delay: 0
-  #       timeout: 600
-  #   - name: "install dependencies."
-  #     become: true
-  #     apt:
-  #       name: ["nodejs", "npm"]
-  #       state: latest
-  #       update_cache: yes
+  pre_tasks:
+    - name: "install dependencies."
+      become: true
+      apt:
+        name: ["nodejs", "npm"]
+        update_cache: yes
   #   - name: "install pm2"
   #     become: true
   #     npm:
