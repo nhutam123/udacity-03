@@ -53,6 +53,34 @@ commands:
 
 jobs:
 
+  install-backend-dependencies:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          name: npm install
+          working_directory: ./backend
+          command: ls -la && npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - backend/node_modules
+
+
+  install-frontend-dependencies:
+   executor: node
+   steps:
+      - checkout
+      - run:
+          name: npm install
+          working_directory: ./frontend
+          command: ls -la && npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/node_modules
+
+
   build-backend:
     executor: node
     steps:
@@ -62,9 +90,7 @@ jobs:
       - run:
           name: npm run build
           working_directory: ./backend
-          command: |
-            npm install
-            npm run build
+          command: npm run build
       - persist_to_workspace:
           root: .
           paths:
@@ -78,13 +104,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: |
-            npm install
-            npm run build
+          name: npm run build
           working_directory: ./frontend
-          command: |
-            npm install
-            npm run build
+          command: npm run build
 
 
   test-frontend:
@@ -96,11 +118,11 @@ jobs:
       - run:
           name: Install junit coverage reporter
           working_directory: ./frontend
-          command: npm install
+          command: npm install --save-dev jest-junit
       - run:
           name: Run tests with JUnit as reporter
           working_directory: ./frontend
-          command: npm test 
+          command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit && pwd && ls -la /tmp
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./test_results
       - store_test_results:
@@ -249,7 +271,6 @@ jobs:
           name: Run migrations
           working_directory: ./backend
           command: |
-            npm install
             npm run migrations > migration
       - destroy_environment:
           id: ${CIRCLE_WORKFLOW_ID:0:5}
@@ -274,7 +295,6 @@ jobs:
           name: Rebuild frontend with backend API Url
           working_directory: ./frontend
           command: |
-            npm install
             export API_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
             echo "${API_URL}"
             npm run build
@@ -431,13 +451,20 @@ jobs:
             fi
           environment:
             TERM: xterm-256color
+
 workflows:
   default:
     jobs:
+      ## BUILD AND DEPLOY
+      - install-backend-dependencies
+      - install-frontend-dependencies
 
-      - build-backend
-
-      - build-frontend
+      - build-backend:
+          requires:
+            - install-backend-dependencies
+      - build-frontend:
+          requires:
+            - install-frontend-dependencies
       - test-backend:
           requires:
             - build-backend
