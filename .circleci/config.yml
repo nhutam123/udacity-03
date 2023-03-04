@@ -96,11 +96,11 @@ jobs:
       - run:
           name: Install junit coverage reporter
           working_directory: ./frontend
-          command: npm install --save-dev jest-junit
+          command: npm install
       - run:
           name: Run tests with JUnit as reporter
           working_directory: ./frontend
-          command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit && pwd && ls -la /tmp
+          command: npm test 
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./test_results
       - store_test_results:
