@@ -53,34 +53,6 @@ commands:
 
 jobs:
 
-  install-backend-dependencies:
-    executor: node
-    steps:
-      - checkout
-      - run:
-          name: npm install
-          working_directory: ./backend
-          command: ls -la && npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - backend/node_modules
-
-
-  install-frontend-dependencies:
-   executor: node
-   steps:
-      - checkout
-      - run:
-          name: npm install
-          working_directory: ./frontend
-          command: ls -la && npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - frontend/node_modules
-
-
   build-backend:
     executor: node
     steps:
@@ -90,7 +62,9 @@ jobs:
       - run:
           name: npm run build
           working_directory: ./backend
-          command: npm run build
+          command: |
+            npm install
+            npm run build
       - persist_to_workspace:
           root: .
           paths:
@@ -104,7 +78,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: npm run build
+          name: |
+            npm install
+            npm run build
           working_directory: ./frontend
           command: npm run build
 
@@ -379,12 +355,12 @@ jobs:
           command: |
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:5}.s3-website.us-east-1.amazonaws.com/index.html"
             curl -s ${URL} | grep -q "Welcome"
-      # - destroy_environment:
-      #     id: ${CIRCLE_WORKFLOW_ID:0:5}
-      #     when: on_fail
-      # - revert_migrations:
-      #     id: ${CIRCLE_WORKFLOW_ID:0:5}
-      #     when: on_fail
+      - destroy_environment:
+          id: ${CIRCLE_WORKFLOW_ID:0:5}
+          when: on_fail
+      - revert_migrations:
+          id: ${CIRCLE_WORKFLOW_ID:0:5}
+          when: on_fail
 
 
   cloudfront-update:
@@ -429,8 +405,15 @@ jobs:
           name: Clean up old environment
           working_directory: ./.circleci/files
           command: |
-            cat old_workflow_id.txt
-            OldWorkflowID=$(cat old_workflow_id.txt)
+            export OldWorkflowID=$(aws cloudformation \
+            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            --no-paginate --output text)
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:5}"
+            # Fetch the stack names          
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+            --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+            echo Stack names: "${STACKS[@]}" 
 
             if [[ "${CIRCLE_WORKFLOW_ID:0:5}" != "$OldWorkflowID" ]]
             then
@@ -444,8 +427,6 @@ jobs:
             fi
           environment:
             TERM: xterm-256color
-
-
 workflows:
   default:
     jobs:
