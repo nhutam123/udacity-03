@@ -82,7 +82,9 @@ jobs:
             npm install
             npm run build
           working_directory: ./frontend
-          command: npm run build
+          command: |
+            npm install
+            npm run build
 
 
   test-frontend:
@@ -430,9 +432,6 @@ jobs:
 workflows:
   default:
     jobs:
-      ## BUILD AND DEPLOY
-      - install-backend-dependencies
-      - install-frontend-dependencies
 
       - build-backend:
           requires:
