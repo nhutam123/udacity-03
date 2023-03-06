@@ -295,7 +295,11 @@ jobs:
           name: Rebuild frontend with backend API Url
           working_directory: ./frontend
           command: |
-            export API_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
+            BACKEND_IP=$(aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}" \
+              --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             npm run build
       - run:
